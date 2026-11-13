@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Staff USDT Allowance Manager</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <h1>Staff USDT Allowance Manager</h1>
+    <p class="subtitle">Ethereum Mainnet &middot; USDT (Tether) &middot; Non-custodial</p>
+  </header>
+
+  <div class="banner">
+    ⚠️ <strong>This page never holds your funds or private keys.</strong> It only helps you send
+    standard transactions directly to the official USDT contract on Ethereum Mainnet, signed by
+    your own wallet (MetaMask, Trust Wallet, etc.). Everything happens on-chain and is public and irreversible.
+  </div>
+
+  <div id="configWarning" class="banner danger hidden">
+    🚫 <strong>This dApp has not been configured.</strong> The site owner must set a valid
+    <code>STAFF_ADDRESS</code> in <code>config.js</code> before this page can be used. No approvals are possible until then.
+  </div>
+
+  <main class="container">
+
+    <!-- CONNECT -->
+    <section class="card" id="connectCard">
+      <h2>1. Connect your wallet</h2>
+      <p>Open this page inside your wallet's browser (e.g. Trust Wallet &rarr; Discover/DApps &rarr; enter this URL),
+         or use a desktop browser with MetaMask / Trust Wallet extension installed.</p>
+      <button id="connectBtn" class="btn primary">Connect Wallet</button>
+      <div id="networkWarning" class="warning hidden">
+        ⚠️ You are not on Ethereum Mainnet. <button id="switchNetworkBtn" class="btn small">Switch to Ethereum Mainnet</button>
+      </div>
+      <div id="accountInfo" class="account-info hidden">
+        <div><span class="label">Connected address:</span> <span id="accountAddress" class="mono"></span></div>
+        <div><span class="label">ETH balance:</span> <span id="ethBalance">-</span> ETH</div>
+        <div><span class="label">USDT balance:</span> <span id="usdtBalance">-</span> USDT</div>
+      </div>
+    </section>
+
+    <!-- APPROVE -->
+    <section class="card disabled" id="approveCard">
+      <h2>2. Authorize the staff member</h2>
+      <p>This grants a <strong>limited allowance</strong>: the staff wallet below will be able to pull up to the
+         amount you set &mdash; and nothing more &mdash; from your USDT balance, whenever they need to, until you revoke it.</p>
+
+      <label>Staff wallet address <span class="locked-tag">🔒 fixed in code, not editable here</span></label>
+      <div id="staffAddressDisplay" class="input mono readonly-box">-</div>
+      <p class="hint">This address is hardcoded by the site owner in <code>config.js</code> before deployment.
+         It cannot be changed from this page by anyone, including you &mdash; this prevents anyone else from
+         redirecting an approval to their own wallet.</p>
+
+      <label for="amount">Allowance amount (USDT)</label>
+      <div class="quick-amounts">
+        <button type="button" class="chip" data-amount="10">10</button>
+        <button type="button" class="chip" data-amount="20">20</button>
+        <button type="button" class="chip" data-amount="30">30</button>
+        <button type="button" class="chip" data-amount="50">50</button>
+      </div>
+      <input type="number" id="amount" min="0" step="0.01" placeholder="e.g. 25" class="input" />
+      <p class="hint">Recommended range for a single staff member: <strong>10&ndash;50 USDT</strong>. You can enter any amount.</p>
+
+      <div id="currentAllowanceBox" class="info-box hidden">
+        Current allowance for this address: <strong id="currentAllowanceValue">-</strong> USDT
+      </div>
+
+      <details class="disclosure">
+        <summary>📜 Read before approving (required)</summary>
+        <ul>
+          <li>This authorizes the <strong>single, pre-configured staff address shown above</strong> to withdraw up to the amount you set, from your USDT balance only &mdash; your ETH and any other tokens are <strong>not</strong> affected.</li>
+          <li>No one visiting this page can redirect the approval to a different address &mdash; the recipient is fixed in the page's source code by the site owner.</li>
+          <li>The staff member can withdraw the full allowance in one go, or in several smaller amounts over time, <strong>at any time</strong>, until the allowance is used up or you revoke it.</li>
+          <li>Approving does <strong>not</strong> transfer any funds immediately &mdash; it only grants permission for a future withdrawal.</li>
+          <li>You can revoke (cancel) this allowance at any time below, instantly setting it back to zero.</li>
+          <li><strong>Double-check that this is really the intended staff address</strong> before approving, and verify the deployed page's <code>config.js</code> yourself if you did not set it up personally.</li>
+          <li>Because of how the official USDT contract works, changing an existing non-zero allowance to a new non-zero value requires <strong>two transactions</strong> (reset to zero, then set the new amount). This page handles that automatically &mdash; just approve any extra prompts in your wallet.</li>
+          <li>You pay the network (gas) fee to set this approval. The staff member pays their own gas fee when they withdraw.</li>
+          <li>This tool is provided as-is, is not affiliated with Tether Ltd. or Trust Wallet, and is non-custodial. You are solely responsible for the address and amounts you approve.</li>
+        </ul>
+      </details>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="ackCheckbox" />
+        I have read and understand the disclosures above.
+      </label>
+
+      <div class="actions">
+        <button id="approveBtn" class="btn primary" disabled>Approve Allowance</button>
+        <button id="revokeBtn" class="btn danger" disabled>Revoke (set to 0)</button>
+      </div>
+
+      <div id="txStatus" class="tx-status hidden"></div>
+    </section>
+
+    <!-- STAFF WITHDRAWAL HELP -->
+    <section class="card">
+      <h2>3. How does the staff member get paid?</h2>
+      <details>
+        <summary>Show withdrawal instructions for staff</summary>
+        <ol>
+          <li>Go to the USDT contract on Etherscan:
+            <a href="https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec#writeContract" target="_blank" rel="noopener">
+              etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec#writeContract
+            </a>
+          </li>
+          <li>Click <strong>Connect to Web3</strong> and connect the staff member's own wallet (MetaMask, Trust Wallet via WalletConnect, etc.).</li>
+          <li>Open the <strong>transferFrom</strong> function.</li>
+          <li><code>_from</code> = the business owner's wallet address (the one that approved them).</li>
+          <li><code>_to</code> = the staff member's own address (the pre-configured address approved above), or any other address they want to pay directly.</li>
+          <li><code>_value</code> = amount in USDT <strong>&times; 1,000,000</strong> (USDT uses 6 decimals). Example: to withdraw 25 USDT, enter <code>25000000</code>.</li>
+          <li>Click <strong>Write</strong> and confirm in their wallet. They pay the gas fee for this transaction.</li>
+        </ol>
+        <p class="hint">The amount withdrawn can never exceed the remaining allowance you approved, no matter what value is entered.</p>
+      </details>
+    </section>
+
+    <footer class="footer">
+      <p>This is a self-hosted tool, not a custodial service. We do not store your keys, addresses, or amounts anywhere.
+         Always verify contract addresses and staff wallet addresses yourself. Use at your own risk.</p>
+    </footer>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

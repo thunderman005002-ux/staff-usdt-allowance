@@ -1,0 +1,291 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #0f1420;
+  color: #e7ebf3;
+  line-height: 1.5;
+}
+
+.topbar {
+  padding: 24px 20px 8px;
+  text-align: center;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: #8a94a8;
+  font-size: 0.9rem;
+}
+
+.banner {
+  margin: 12px 16px;
+  padding: 12px 16px;
+  background: #1c2436;
+  border: 1px solid #2c3850;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  color: #c7cde0;
+}
+
+.banner.danger {
+  background: #3a1620;
+  border-color: #7a2436;
+  color: #ffd2d9;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 16px 40px;
+}
+
+.card {
+  background: #161c2c;
+  border: 1px solid #262f45;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 18px;
+  transition: opacity 0.2s;
+}
+
+.card.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s, opacity 0.15s;
+}
+
+.btn.primary {
+  background: #4c7bf4;
+  color: white;
+}
+
+.btn.danger {
+  background: #e4495f;
+  color: white;
+  margin-left: 10px;
+}
+
+.btn.small {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  margin-left: 8px;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+
+.warning {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: #3a2c12;
+  border: 1px solid #7a5a1e;
+  color: #ffdfa3;
+  border-radius: 8px;
+  font-size: 0.86rem;
+}
+
+.account-info {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  display: grid;
+  gap: 4px;
+}
+
+.label {
+  color: #8a94a8;
+  margin-right: 6px;
+}
+
+.mono {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+label {
+  display: block;
+  margin: 16px 0 6px;
+  font-size: 0.88rem;
+  color: #c7cde0;
+}
+
+.locked-tag {
+  font-size: 0.76rem;
+  color: #8a94a8;
+  font-weight: normal;
+  margin-left: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2c3850;
+  background: #0f1420;
+  color: #e7ebf3;
+  font-size: 0.92rem;
+}
+
+.readonly-box {
+  background: #0d1118;
+  color: #9fb4ff;
+  word-break: break-all;
+  user-select: all;
+}
+
+.field-error {
+  color: #ff8fa0;
+  font-size: 0.82rem;
+  margin-top: 4px;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #8a94a8;
+  margin: 6px 0 0;
+}
+
+.quick-amounts {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #2c3850;
+  background: #1c2436;
+  color: #e7ebf3;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.chip:hover {
+  background: #262f45;
+}
+
+.info-box {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: #0f1a14;
+  border: 1px solid #1f4a33;
+  color: #b7f0cf;
+  border-radius: 8px;
+  font-size: 0.86rem;
+}
+
+.disclosure {
+  margin-top: 18px;
+  background: #0f1420;
+  border: 1px solid #2c3850;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.disclosure summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.disclosure ul {
+  margin: 12px 0 2px;
+  padding-left: 20px;
+  font-size: 0.85rem;
+  color: #c7cde0;
+}
+
+.disclosure li {
+  margin-bottom: 8px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  font-size: 0.88rem;
+}
+
+.checkbox-row input {
+  width: 16px;
+  height: 16px;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.tx-status {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.tx-status.pending {
+  background: #241f0d;
+  border: 1px solid #6b5a1e;
+  color: #ffe9a8;
+}
+
+.tx-status.success {
+  background: #0f1a14;
+  border: 1px solid #1f4a33;
+  color: #b7f0cf;
+}
+
+.tx-status.error {
+  background: #2a1218;
+  border: 1px solid #6b2531;
+  color: #ffb3bf;
+}
+
+.tx-status a {
+  color: #9fb4ff;
+}
+
+details ol, details p {
+  font-size: 0.85rem;
+  color: #c7cde0;
+}
+
+.footer {
+  text-align: center;
+  color: #5c6680;
+  font-size: 0.78rem;
+  padding: 10px 20px 30px;
+}
+
+.hidden {
+  display: none !important;
+}
